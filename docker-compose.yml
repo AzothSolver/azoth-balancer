@@ -1,0 +1,20 @@
+version: "3.9"
+
+services:
+  azoth-balancer:
+    build: .
+    container_name: azoth-balancer
+    image: azoth-balancer:latest
+    restart: unless-stopped
+    volumes:
+      - ./config.toml:/etc/azoth-balancer/config.toml:ro
+    ports:
+      - "8549:8549"
+    environment:
+      - RUST_LOG=info
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8549/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 5s

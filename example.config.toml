@@ -1,0 +1,93 @@
+[server]
+bind_addr = "0.0.0.0:8549"
+
+[balancer]
+health_check_interval_secs = 12
+health_check_timeout_secs = 3
+base_cooldown_secs = 1
+max_cooldown_secs = 9
+max_batch_size = 200
+max_concurrency = 200
+
+# These settings are applied at startup. A restart is required to change them.
+connect_timeout_ms = 300 # Time to wait for a connection to be established (milliseconds)
+timeout_secs = 3 # Total request timeout (seconds)
+pool_idle_timeout_secs = 25 # How long an idle connection is kept in the pool (seconds)
+pool_max_idle_per_host = 200 # Max number of idle connections to a single host
+
+# A value between 0.0 and 1.0. Smaller is smoother (slower reaction). Resolves ties when multiple Tier 2 endpoints have similar latency.
+# Larger is less smooth (faster reaction). Default is 0.1.
+latency_smoothing_factor = 0.1
+
+
+
+# Endpoint configuration starts here.
+# Each endpoint is defined in its own [[balancer.endpoints]] block.
+
+
+
+## Local RPC (tier 1)
+
+[[balancer.endpoints]]
+url = "http://127.0.0.1:8547"
+rate_limit_per_sec = 10000
+burst_size = 10000
+weight = 100
+
+
+
+## Premium RPC (Tier 2)
+
+[[balancer.endpoints]]
+url = "https://premium.cloud.rpc.01.com"
+rate_limit_per_sec = 200
+burst_size = 300
+weight = 60
+
+[[balancer.endpoints]]
+url = "https://premium.cloud.rpc.02.com"
+rate_limit_per_sec = 200
+burst_size = 300
+weight = 50
+
+[[balancer.endpoints]]
+url = "https://premium.cloud.rpc.03.com"
+rate_limit_per_sec = 200
+burst_size = 300
+weight = 50
+
+
+
+## Free tier and public RPC (Tier 3)
+
+[[balancer.endpoints]]
+url = "https://free.public.endpoint.01.com"
+rate_limit_per_sec = 20
+burst_size = 25
+weight = 15
+
+[[balancer.endpoints]]
+url = "https://free.public.endpoint.02.com"
+rate_limit_per_sec = 10
+burst_size = 15
+weight = 10
+
+[[balancer.endpoints]]
+url = "https://free.public.endpoint.03.com"
+rate_limit_per_sec = 5
+burst_size = 10
+weight = 5
+
+[[balancer.endpoints]]
+url = "https://free.public.endpoint.04.com"
+rate_limit_per_sec = 6
+burst_size = 12
+weight = 5
+
+[[balancer.endpoints]]
+url = "https://free.public.endpoint.05.com"
+rate_limit_per_sec = 8
+burst_size = 16
+weight = 5
+
+

@@ -1,0 +1,8 @@
+# Modern, wider line length
+max_width = 100
+# Use the 2021 edition style
+edition = "2021"
+# Indentation
+tab_spaces = 4
+# Use compact formatting when possible
+use_small_heuristics = "Max"
