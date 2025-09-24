@@ -5,7 +5,7 @@
 [![Version: 0.3.0](https://img.shields.io/badge/version-0.3.0-green.svg)](https://github.com/AzothSolver/azoth-balancer)
 
 <p align="center">
-<img src="https://raw.githubusercontent.com/AzothSolver/azoth-balancer/azoth-balancer-logo.png" alt="AzothBalancer Logo" width="150"/>
+<img src="https://raw.githubusercontent.com/AzothSolver/azoth-balancer/main/azoth-balancer-logo.png" alt="AzothBalancer Logo" width="150"/>
 </p>
 
 **AzothBalancer** is a high-performance, transport-agnostic JSON-RPC load balancer in Rust. It provides reliability, performance, and cost-efficiency for blockchain infrastructure, focusing on the demanding workloads of CoW Protocol solvers. The project is currently stable at **v0.3.0** with a well-tested foundation.
