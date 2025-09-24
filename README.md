@@ -5,7 +5,7 @@
 [![Version: 0.3.0](https://img.shields.io/badge/version-0.3.0-green.svg)](https://github.com/AzothSolver/azoth-balancer)
 
 <p align="center">
-<img src="azoth-balancer-logo.png" alt="AzothBalancer Logo" width="150"/>
+<img src="https://raw.githubusercontent.com/AzothSolver/azoth-balancer/azoth-balancer-logo.png" alt="AzothBalancer Logo" width="150"/>
 </p>
 
 **AzothBalancer** is a high-performance, transport-agnostic JSON-RPC load balancer in Rust. It provides reliability, performance, and cost-efficiency for blockchain infrastructure, focusing on the demanding workloads of CoW Protocol solvers. The project is currently stable at **v0.3.0** with a well-tested foundation.
@@ -71,10 +71,36 @@ graph TB
 
 ## Quick Start
 
+---
+
+### Installation via Cargo
+
+```bash
+cargo install azoth-balancer
+```
+
+After installing, copy the example config:
+
+```bash
+curl -O https://raw.githubusercontent.com/AzothSolver/azoth-balancer/main/example.config.toml
+```
+
+Then run:
+
+```bash
+azoth-balancer --config example.config.toml
+```
+
+> This allows you to try AzothBalancer without cloning the repo or building manually.
+
+---
+
+Installation via clone repo:
+
 ```bash
 git clone https://github.com/AzothSolver/azoth-balancer.git
 cd azoth-balancer
-cp config.example.toml config.toml
+cp example.config.toml config.toml # Then edit your config
 cargo build --release
 ./target/release/azoth-balancer --config config.toml
 ```
