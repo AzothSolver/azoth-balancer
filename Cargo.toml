@@ -10,17 +10,7 @@ documentation = "https://docs.rs/azoth-balancer"
 readme = "README.md"
 homepage = "https://github.com/AzothSolver/azoth-balancer"
 rust-version = "1.82"
-keywords = [
-    "rpc",
-    "load-balancer",
-    "async",
-    "tokio",
-    "axum",
-    "tiered-routing",
-    "failover",
-    "monitoring",
-    "blockchain",
-]
+keywords = ["rpc", "load-balancer", "tiered-routing", "failover", "blockchain"]
 categories = [
     "network-programming",
     "web-programming",
