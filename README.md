@@ -91,11 +91,11 @@ Then run:
 azoth-balancer --config example.config.toml
 ```
 
-> This allows you to try AzothBalancer without cloning the repo or building manually.
+> Allows you to try AzothBalancer without cloning the repo or building manually.
 
 ---
 
-Installation via clone repo:
+### Installation via Clone & Build
 
 ```bash
 git clone https://github.com/AzothSolver/azoth-balancer.git
@@ -106,6 +106,18 @@ cargo build --release
 ```
 
 Default server: `0.0.0.0:8549`
+
+---
+
+### Download Prebuilt Binary
+
+```bash
+curl -LO https://github.com/AzothSolver/azoth-balancer/releases/download/v0.3.0/azoth-balancer-v0.3.0-x86_64-unknown-linux-gnu.tar.gz
+tar -xzvf azoth-balancer-v0.3.0-x86_64-unknown-linux-gnu.tar.gz
+./azoth-balancer --config example.config.toml
+```
+
+> Allows you to try AzothBalancer immediately without building or installing via Cargo.
 
 ---
 
