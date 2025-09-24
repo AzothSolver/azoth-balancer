@@ -11,13 +11,7 @@ readme = "README.md"
 homepage = "https://github.com/AzothSolver/azoth-balancer"
 rust-version = "1.82"
 keywords = ["rpc", "load-balancer", "tiered-routing", "failover", "blockchain"]
-categories = [
-    "network-programming",
-    "web-programming",
-    "asynchronous",
-    "infrastructure",
-    "system-programming",
-]
+categories = ["network-programming"]
 exclude = [
     ".git",           # Git history
     ".gitignore",     # Local ignore file
