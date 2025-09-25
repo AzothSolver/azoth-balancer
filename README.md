@@ -160,6 +160,123 @@ docker-compose up --build
 
 ---
 
+## Monitoring with Prometheus & Grafana
+
+AzothBalancer exposes comprehensive metrics at the `/metrics` endpoint. Here's how to set up monitoring:
+
+### 1. Prometheus Configuration
+
+Add this job to your `prometheus.yml`:
+
+```yaml
+scrape_configs:
+  - job_name: "azoth-balancer"
+    static_configs:
+      - targets: ["127.0.0.1:8549"]  # Adjust host/port if different
+    metrics_path: /metrics
+    scrape_interval: 15s
+    scrape_timeout: 10s
+```
+
+### 2. Grafana Dashboard Import
+
+1. Download the dashboard JSON:
+```bash
+curl -O https://raw.githubusercontent.com/AzothSolver/azoth-balancer/main/grafana-dashboards/azoth-balancer-monitoring-dashboard-beta.json
+```
+
+2. In Grafana:
+   - Navigate to **Create → Import**
+   - Upload the JSON file or paste the contents
+   - Select your Prometheus datasource
+   - Click **Import**
+
+### 3. Quick Start with Docker Compose (Optional)
+
+Create `docker-compose.monitoring.yml`:
+
+```yaml
+version: "3.8"
+
+services:
+  azoth-balancer:
+    build: .
+    ports:
+      - "8549:8549"
+    volumes:
+      - ./config.toml:/app/config.toml
+    restart: unless-stopped
+
+  prometheus:
+    image: prom/prometheus:latest
+    ports:
+      - "9090:9090"
+    volumes:
+      - ./prometheus.yml:/etc/prometheus/prometheus.yml
+      - prometheus_data:/prometheus
+    command:
+      - '--config.file=/etc/prometheus/prometheus.yml'
+      - '--storage.tsdb.path=/prometheus'
+      - '--web.console.libraries=/etc/prometheus/console_libraries'
+      - '--web.console.templates=/etc/prometheus/consoles'
+      - '--storage.tsdb.retention.time=200h'
+      - '--web.enable-lifecycle'
+    restart: unless-stopped
+
+  grafana:
+    image: grafana/grafana:latest
+    ports:
+      - "3000:3000"
+    environment:
+      - GF_SECURITY_ADMIN_USER=admin
+      - GF_SECURITY_ADMIN_PASSWORD=admin
+      - GF_USERS_ALLOW_SIGN_UP=false
+    volumes:
+      - grafana_data:/var/lib/grafana
+      - ./grafana-dashboards:/etc/grafana/provisioning/dashboards
+    restart: unless-stopped
+    depends_on:
+      - prometheus
+
+volumes:
+  prometheus_data:
+  grafana_data:
+```
+
+And `prometheus.yml`:
+
+```yaml
+global:
+  scrape_interval: 15s
+
+scrape_configs:
+  - job_name: "azoth-balancer"
+    static_configs:
+      - targets: ["azoth-balancer:8549"]
+    metrics_path: /metrics
+```
+
+Run with:
+```bash
+docker-compose -f docker-compose.monitoring.yml up -d
+```
+
+- **Grafana**: http://localhost:3000 (admin/admin)
+- **Prometheus**: http://localhost:9090
+
+### Available Metrics
+
+The dashboard provides:
+- **Real-time RPS & error rates**
+- **Endpoint health & latency distributions**
+- **Rate limiting & cooldown events**
+- **Priority-based routing analytics**
+- **Concurrency & batch size monitoring**
+
+The dashboard automatically detects your endpoints and provides tier-based analytics for optimal performance monitoring.
+
+---
+
 ## License
 
 **MIT or Apache 2.0**
