@@ -215,14 +215,6 @@ Create `docker-compose.monitoring.yml`:
 version: "3.8"
 
 services:
-  azoth-balancer:
-    build: .
-    ports:
-      - "8549:8549"
-    volumes:
-      - ./config.toml:/app/config.toml
-    restart: unless-stopped
-
   prometheus:
     image: prom/prometheus:latest
     ports:
