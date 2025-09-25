@@ -24,6 +24,49 @@
 
 ---
 
+## Technical Architecture
+
+### Intelligent 3-Tier Routing Strategy
+
+AzothBalancer implements a sophisticated 3-tier priority system for optimal endpoint selection:
+
+**Tier 1 (Local Nodes | Weight ≥ 100)**
+- **Priority:** Highest - always selected first when available
+- **Use Case:** Local nodes, premium dedicated endpoints
+
+**Tier 2 (Premium Services | Weight 50–99)**
+- **Priority:** Secondary fallback with latency-based optimization
+- **Sorting:** Weight → Lowest latency first → Most Recently Used (MRU)
+- **Use Case:** Premium RPC providers (Alchemy, QuickNode, Infura) - prioritizes lowest-latency endpoints during critical operations
+
+**Tier 3 (Free/Public | Weight 1–49)**
+- **Priority:** Final fallback for maximum reliability
+- **Sorting:** Weight → MRU (cost-agnostic)
+- **Use Case:** Public RPCs, emergency backup
+
+**Key Features:**
+- **Graceful Degradation:** Automatic tier fallback during outages
+- **Batch-aware Rate Limiting:** Respects RPC provider quotas for large requests
+- **Performance-based Selection:** Maintains low latency under high load
+- **MRU-based Tie-Breaker:** Prevents endpoint starvation while maintaining load distribution
+
+### Current Implementation (v0.3.0)
+
+**Core Infrastructure:**
+- 3-tier priority routing with configurable weights
+- Exponential backoff cooldown system
+- Per-endpoint rate limiting with burst support
+- Prometheus metrics integration (`/metrics`)
+- Hot configuration reloading (`/reload`)
+
+**Code Quality & Reliability:**
+- Thread-safe state management (`Arc<RwLock<...>>`)
+- Comprehensive test suite (20+ tests)
+- Graceful shutdown handling
+- Async Rust foundation (Tokio, Axum, Reqwest)
+
+---
+
 ## Planned Enhancements
 
 * **transaction-type aware routing:** Route sensitive RPC methods (e.g., `eth_sendRawTransaction`) to secure endpoints (eg. MEV Blocker)
@@ -38,34 +81,7 @@
 * **Increase Solver Reliability:** Reduce infrastructure-related settlement failures
 * **Lower Operational Costs:** Optimized routing for premium and free endpoints
 * **Lower Barrier to Entry:** Enable new solver operators to run reliable infrastructure easily
-* **Open-Source Contribution:** Reusable component for CoW ecosystem solvers
-
----
-
-## Architecture Highlights
-
-* **Async Rust:** Built with Tokio, Axum, Reqwest for performance and correctness
-* **Tiered Fallback Strategy:** Strict priority order with Tier 1 → Tier 3 fallback
-* **Exponential Backoff:** Progressive cooldown for repeatedly failing endpoints
-* **Thread-Safe State:** `Arc<RwLock<...>>` ensures correctness under high concurrency
-* **Comprehensive Tests:** 20+ unit tests covering routing, configuration, and error handling
-
----
-
-## Diagram
-
-```mermaid
-graph TB
-    A[Client Request] --> B[AzothBalancer]
-    B --> C{Tier Selection}
-    C -->|Tier 1| D[Local Endpoints]
-    C -->|Tier 2| E[Premium RPCs]
-    C -->|Tier 3| F[Free Endpoints]
-    D --> G[Health Check]
-    E --> G
-    F --> G
-    G --> H[Response]
-```
+* **Open-Source Contribution:** Reusable component for CoW ecosystem solvers and dApp builders
 
 ---
 
@@ -293,4 +309,7 @@ The dashboard automatically detects your endpoints and provides tier-based analy
 ## Contact
 
 For questions, suggestions, or contributions, please open an issue on [GitHub Issues](https://github.com/AzothSolver/azoth-balancer/issues).
+
+
+
 
