@@ -8,7 +8,17 @@
 <img src="https://raw.githubusercontent.com/AzothSolver/azoth-balancer/main/azoth-balancer-logo.png" alt="AzothBalancer Logo" width="150"/>
 </p>
 
-**AzothBalancer** is a high-performance, transport-agnostic JSON-RPC load balancer in Rust. It provides reliability, performance, and cost-efficiency for blockchain infrastructure, focusing on the demanding workloads of CoW Protocol solvers. The project is currently stable at **v0.3.0** with a well-tested foundation.
+> ⚠️ **Experimental Software / Security Notice**  
+> AzothBalancer is open-source and usable today, but it is still **early-stage software**.  
+> - Expect breaking changes, incomplete features.  
+> - **Do not expose the service publicly.** Run only on localhost or within a private network.  
+> - **Keep server ports behind a firewall or bound to `127.0.0.1`** to avoid external access.
+> - No TLS/HTTPS or authentication exists yet for the `/reload` endpoint yet.  
+
+> Feedback and contributions are welcome — do not rely on this as your sole production RPC layer.
+
+
+**AzothBalancer** is a high-performance, JSON-RPC load balancer in Rust. It provides reliability, performance, and cost-efficiency for blockchain infrastructure, focusing on the demanding workloads of CoW Protocol solvers. The project is currently stable at **v0.3.0**.
 
 ---
 
